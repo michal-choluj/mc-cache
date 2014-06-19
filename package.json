@@ -1,0 +1,22 @@
+{
+    "name": "mc_cache",
+    "private": true,
+    "version": "0.1",
+    "author": "MCH",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "tool",
+        "cache"
+    ],
+    "licenses": [{
+        "type": "MIT"
+    }],
+    "scripts": {
+        "start": "node index"
+    },
+    "dependencies": {
+        "underscore": "1.6"
+    }
+}
