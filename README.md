@@ -21,3 +21,13 @@ mc-cache
 * `hit(key)`
 * `clean({keys:[],tags:[]})`
 * `error(err)`
+
+### ENGINES
+
+* `Memory`
+* `Redis`
+
+### TODO
+
+* `Mongo` engine
+* `getSize` for memory ngine
