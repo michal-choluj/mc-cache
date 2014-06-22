@@ -13,3 +13,11 @@ mc-cache
 * `getTags(callback)`
 * `getKeys(callback)`
 * `hasTag(name, callback)`
+
+### EVENTS
+
+* `set(err)`
+* `miss(key)`
+* `hit(key)`
+* `clean({keys:[],tags:[]})`
+* `error(err)`
