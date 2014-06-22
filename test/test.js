@@ -67,6 +67,20 @@ describe('Core', function () {
             Cache.set('setKey', 'hello world', function () {});
         });
 
+        it('should not allow circular values', function (done) {
+            var Cache = new cache(),
+                circular = [];
+            circular.push(circular);
+            Cache.set('circularKey', circular, function (err) {
+                err.should.be.instanceOf(TypeError);
+                err.should.have.property('message', 'Converting circular structure to JSON');
+                Cache.get('circularKey', function (err, value) {
+                    should.equal(value, undefined);
+                    done();
+                });
+            });
+        });
+
     });
 
     describe('#get()', function () {
