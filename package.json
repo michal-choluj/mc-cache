@@ -1,22 +1,27 @@
 {
-    "name": "mc_cache",
-    "private": true,
-    "version": "0.2",
-    "author": "MCH",
-    "keywords": [
-        "util",
-        "functional",
-        "server",
-        "tool",
-        "cache"
-    ],
-    "licenses": [{
-        "type": "MIT"
-    }],
-    "scripts": {
-        "start": "node index"
-    },
-    "dependencies": {
-        "underscore": "1.6"
+  "name": "mc_cache",
+  "private": true,
+  "version": "0.2.0",
+  "author": "MCH",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "tool",
+    "cache"
+  ],
+  "licenses": [
+    {
+      "type": "MIT"
     }
+  ],
+  "scripts": {
+    "start": "node index"
+  },
+  "dependencies": {
+    "underscore": "1.6"
+  },
+  "devDependencies": {
+    "should": "^4.0.4"
+  }
 }
