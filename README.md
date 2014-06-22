@@ -29,5 +29,5 @@ mc-cache
 
 ### TODO
 
-* `Mongo` engine
-* `getSize` for memory engine
+* `MongoDB`
+* `getSize`
