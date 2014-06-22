@@ -30,4 +30,4 @@ mc-cache
 ### TODO
 
 * `Mongo` engine
-* `getSize` for memory ngine
+* `getSize` for memory engine
