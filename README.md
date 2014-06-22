@@ -13,6 +13,7 @@ mc-cache
 * `getTags(callback)`
 * `getKeys(callback)`
 * `hasTag(name, callback)`
+* `hasKey(name, callback)`
 
 ### EVENTS
 
@@ -31,3 +32,5 @@ mc-cache
 
 * `MongoDB`
 * `getSize`
+* `hasKey`
+* `flushAll`
