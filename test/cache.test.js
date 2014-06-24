@@ -12,10 +12,15 @@ describe('Core', function () {
 
         it('Should create an instance of function with custom options', function () {
             new cache({
+                backend: {
+                    engine: "redis",
+                    port: "",
+                    host: "10.8.0.1"
+                },
                 frontend: {
                     caching: true,
                     serialization: false,
-                    lifetime: 50
+                    lifetime: 500
                 }
             });
         });
@@ -85,19 +90,10 @@ describe('Core', function () {
 
     describe('#get()', function () {
 
-        it('should emit a "miss" event on cache misses', function (done) {
-            var Cache = new cache();
-            Cache.on('miss', function (key) {
-                assert.equal(key, 'undefined');
-                done();
-            });
-            Cache.get('undefined', function () {});
-        });
-
-        it('should return undefined for a key that has not been set', function (done) {
+        it('should return null for a key that has not been set', function (done) {
             var Cache = new cache();
             Cache.get('undefined', function (err, value) {
-                assert.equal(value, undefined);
+                assert.equal(value, null);
                 done();
             });
         });
@@ -117,31 +113,36 @@ describe('Core', function () {
 
         it('should not return a value for a key that has been cleared', function (done) {
             var Cache = new cache();
-            Cache.set('test', 'hello world');
-            Cache.cleanKeys('test', function () {
+            Cache.set('test', 'hello world', function () {
+                Cache.cleanKeys('test', function () {
+                    Cache.get('test', function (error, value) {
+                        should.equal(value, null);
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should return a value when within the TTL', function (done) {
+            var Cache = new cache();
+            Cache.set('test', 'hello world', null, 1000, function () {
                 Cache.get('test', function (error, value) {
-                    should.equal(value, undefined);
+                    should.equal(value, 'hello world');
                     done();
                 });
             });
         });
 
-        it('should return a value when within the TTL', function () {
+        it('should not return a value when TTL has been expired', function (done) {
             var Cache = new cache();
-            Cache.set('test', 'hello world', null, 50);
-            Cache.get('test', function (error, value) {
-                value.should.eql('hello world');
+            Cache.set('test-ttl', 'hello world', null, 200, function () {
+                setTimeout(function () {
+                    Cache.get('test-ttl', function (error, value) {
+                        should.equal(value, null);
+                        done();
+                    });
+                }, 300);
             });
-        });
-
-        it('should not return a value when TTL has been expired', function () {
-            var Cache = new cache();
-            Cache.set('test-ttl', 'hello world', null, 50);
-            setTimeout(function () {
-                Cache.get('test-ttl', function (error, value) {
-                    value.should.eql(undefined);
-                });
-            }, 100);
         });
 
     });
@@ -159,7 +160,8 @@ describe('Core', function () {
             var Cache = new cache();
             Cache.on('clean', function (result) {
                 (result).should.eql({
-                    keys: ['test']
+                    keys: ['test'],
+                    tags: []
                 });
                 done();
             });
@@ -223,10 +225,11 @@ describe('Core', function () {
 
     describe('#haskey()', function () {
 
-        it('should not error if key does not exist', function () {
+        it('should not error if key does not exist', function (done) {
             var Cache = new cache();
-            Cache.hasKey('notExistsKey', function (err) {
+            Cache.hasKey('notExistsKey', function (err, data) {
                 true.should.equal(err === null, err && err.message);
+                done();
             });
         });
 
@@ -245,11 +248,11 @@ describe('Core', function () {
 
     describe('#getKeys()', function () {
 
-        it('should not error if key does not exist', function () {
+        it('should not error if key does not exist', function (done) {
             var Cache = new cache();
-            Cache.getKeys(function (err, isExists) {
+            Cache.getKeys(function (err) {
                 true.should.equal(err === null, err && err.message);
-                isExists.should.eql([]);
+                done();
             });
         });
 

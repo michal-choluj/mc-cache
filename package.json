@@ -17,7 +17,8 @@
     "start": "node index"
   },
   "dependencies": {
-    "underscore": "1.6"
+    "underscore": "1.6",
+    "redis": "0.10.4"
   },
   "devDependencies": {
     "should": "^4.0.4"
