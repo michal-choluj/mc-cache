@@ -1,7 +1,8 @@
 mc-cache
 ========
 
-mc-cache
+mc-cache supports multiple instances of cache engines.
+It's very useful tool if your services are too slow and you want to store things in cache.
 
 ### CACHE API
 
@@ -26,7 +27,7 @@ mc-cache
 ### ENGINES
 
 * `Memory`
-* `Redis`
+* `Redis` (In progress)
 
 ### TODO
 
@@ -34,3 +35,4 @@ mc-cache
 * `getSize`
 * `hasKey`
 * `flushAll`
+* `Namespaces`

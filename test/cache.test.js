@@ -172,4 +172,98 @@ describe('Core', function () {
 
     });
 
+    describe('#cleanTags()', function () {
+
+        it('should not error if tag does not exist', function () {
+            var Cache = new cache();
+            Cache.cleanTags('notExistsTag', function (err) {
+                true.should.equal(err === null, err && err.message);
+            });
+        });
+
+        it('should emit a "clean" event with removed tags', function (done) {
+            var Cache = new cache();
+            Cache.on('clean', function (result) {
+                (result).should.eql({
+                    tags: ['test'],
+                    keys: ['test']
+                });
+                done();
+            });
+            Cache.set('test', 'hello world', 'test', function () {
+                Cache.cleanTags('test', function (err) {
+                    true.should.equal(err === null, err && err.message);
+                });
+            });
+        });
+
+    });
+
+    describe('#hasTag()', function () {
+
+        it('should not error if tag does not exist', function () {
+            var Cache = new cache();
+            Cache.hasTag('notExistsTag', function (err) {
+                true.should.equal(err === null, err && err.message);
+            });
+        });
+
+        it('should return value via callback', function (done) {
+            var Cache = new cache();
+            Cache.set('test', 'hello world', 'tag', function () {
+                Cache.hasTag('tag', function (err, isExists) {
+                    true.should.equal(err === null, err && err.message);
+                    isExists.should.eql(true);
+                    done();
+                });
+            });
+        });
+
+    });
+
+    describe('#haskey()', function () {
+
+        it('should not error if key does not exist', function () {
+            var Cache = new cache();
+            Cache.hasKey('notExistsKey', function (err) {
+                true.should.equal(err === null, err && err.message);
+            });
+        });
+
+        it('should return value via callback', function (done) {
+            var Cache = new cache();
+            Cache.set('test', 'hello world', function () {
+                Cache.hasKey('test', function (err, isExists) {
+                    true.should.equal(err === null, err && err.message);
+                    isExists.should.eql(true);
+                    done();
+                });
+            });
+        });
+
+    });
+
+    describe('#getKeys()', function () {
+
+        it('should not error if key does not exist', function () {
+            var Cache = new cache();
+            Cache.getKeys(function (err, isExists) {
+                true.should.equal(err === null, err && err.message);
+                isExists.should.eql([]);
+            });
+        });
+
+        it('should return a value if there is any key', function (done) {
+            var Cache = new cache();
+            Cache.set('test', 'hello world', function () {
+                Cache.getKeys(function (err, keys) {
+                    true.should.equal(err === null, err && err.message);
+                    keys.should.containEql('test');
+                    done();
+                });
+            });
+        });
+
+    });
+
 });
